@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cococloud.admin.mapper.SysDeptRelationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cococloud.upms.common.entity.SysDeptRelation">
+        <id column="ancestor" property="ancestor" />
+        <result column="descendant" property="descendant" />
+    </resultMap>
+    <update id="updateDeptRelation">
+        delete from
+            sys_dept_relation
+        where descendant in (
+            select tmp1.descendant from
+                (
+                    select descendant from sys_dept_relation
+                    where ancestor = #{descendant}
+                ) tmp1
+        ) and ancestor in (
+            select tmp2.ancestor from
+                (
+                    select ancestor from sys_dept_relation
+                    where descendant = #{descendant}
+                      AND ancestor != descendant
+                ) tmp2
+        );
+
+    </update>
+
+    <insert id="insertRelationWhenUpdate">
+        insert into sys_dept_relation (ancestor, descendant)
+        select a.ancestor, b.descendant
+        from sys_dept_relation a
+                 cross join sys_dept_relation b
+        where a.descendant = #{ancestor}
+          and b.ancestor = #{descendant};
+    </insert>
+
+    <delete id="removeDeptRelationById">
+        delete from
+            sys_dept_relation
+        where descendant in (
+            select tmp.descendant from
+                (
+                    # 所有子节点都有与该id父节点之间的关系
+                    select descendant from sys_dept_relation
+                    where ancestor = #{id}
+                ) tmp
+        )
+    </delete>
+
+</mapper>

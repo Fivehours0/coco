@@ -1,0 +1,29 @@
+server:
+  port: 3100
+
+# 服务名称
+spring:
+  application:
+    name: coco-auth
+
+  redis:
+    url: redis://:@localhost:6379
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8850
+
+  datasource:
+    url: jdbc:mysql://pig-mysql:3306/pig?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cococloud.admin.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cococloud.upms.common.entity.SysUser">
+        <id column="user_id" property="userId" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="salt" property="salt" />
+        <result column="phone" property="phone" />
+        <result column="avatar" property="avatar" />
+        <result column="dept_id" property="deptId" />
+        <result column="lock_flag" property="lockFlag" />
+        <result column="del_flag" property="delFlag" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_by" property="updateBy" />
+    </resultMap>
+
+    <!-- UserVo结果集 -->
+    <resultMap id="userVoResultMap" type="com.cococloud.upms.common.vo.UserVO">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="phone" property="phone"/>
+        <result column="avatar" property="avatar"/>
+        <result column="ucreate_time" property="createTime"/>
+        <result column="uupdate_time" property="updateTime"/>
+        <result column="lock_flag" property="lockFlag"/>
+        <result column="udel_flag" property="delFlag"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="deptName" property="deptName"/>
+        <collection property="roleList" ofType="com.cococloud.upms.common.entity.SysRole">
+            <id column="role_id" property="roleId"/>
+            <result column="role_name" property="roleName"/>
+            <result column="role_code" property="roleCode"/>
+            <result column="role_desc" property="roleDesc"/>
+            <result column="rcreate_time" property="createTime"/>
+            <result column="rupdate_time" property="updateTime"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectUserPageVo" resultMap="userVoResultMap">
+        select su.user_id,
+               su.username,
+               su.password,
+               su.salt,
+               su.phone,
+               su.avatar,
+               su.create_time as ucreate_time,
+               su.update_time as uupdate_time,
+               su.lock_flag,
+               su.del_flag as udel_flag,
+               su.dept_id,
+               sd.name as deptName,
+               sr.role_id,
+               sr.role_name,
+               sr.role_code,
+               sr.role_desc,
+               sr.create_time as rcreate_time,
+               sr.update_time as rupdate_time
+               from sys_user as su
+               left join sys_dept as sd on su.dept_id = sd.dept_id
+               left join sys_user_role as sur on su.user_id = sur.user_id
+               left join sys_role as sr on sur.role_id = sr.role_id
+               <where>
+                   su.del_flag = '0'
+                   <if test="query.username != null and query.username != ''">
+                       and su.username like concat('%', #{query.username}, '%')
+                   </if>
+               </where>
+    </select>
+
+</mapper>
