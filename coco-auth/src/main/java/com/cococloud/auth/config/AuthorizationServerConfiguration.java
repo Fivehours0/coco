@@ -1,5 +1,6 @@
 package com.cococloud.auth.config;
 
+import com.cococloud.auth.handler.CocoWebResponseExceptionTranslater;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     private final AuthenticationManager authenticationManager;
 
+    private final CocoWebResponseExceptionTranslater webResponseExceptionTranslater;
+
     /**
      * defines the authorization and token endpoints and the token services.
      */
@@ -60,7 +63,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         // TODO: 对token的增强TokenEnhancer，
-        endpoints.tokenStore(redisTokenStore).userDetailsService(detailsService);
+        endpoints.tokenStore(redisTokenStore).userDetailsService(detailsService)
+                 .exceptionTranslator(webResponseExceptionTranslater);
         setTokenGranter(endpoints);
     }
 

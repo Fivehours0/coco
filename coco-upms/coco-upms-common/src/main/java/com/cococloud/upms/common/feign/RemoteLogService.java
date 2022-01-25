@@ -1,4 +1,4 @@
-package com.cococloud.log.feign;
+package com.cococloud.upms.common.feign;
 
 import com.cococloud.common.constant.ServerNameConstants;
 import com.cococloud.common.util.CommentResult;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
-@FeignClient(value = ServerNameConstants.UPMS_NAME)
+@FeignClient(contextId ="remoteLogService", value = ServerNameConstants.UPMS_NAME)
 public interface RemoteLogService {
 
     @PostMapping("/log")

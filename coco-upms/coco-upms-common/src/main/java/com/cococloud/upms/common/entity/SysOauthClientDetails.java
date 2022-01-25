@@ -4,10 +4,14 @@ import java.util.Date;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
@@ -27,6 +31,8 @@ public class SysOauthClientDetails implements Serializable {
     /**
      * 客户端ID
      */
+    @NotBlank(message = "客户端id 不能为空")
+    @TableId(value = "client_id", type = IdType.INPUT)
     private String clientId;
 
     /**
@@ -37,11 +43,13 @@ public class SysOauthClientDetails implements Serializable {
     /**
      * 客户端密钥
      */
+    @NotBlank(message = "客户端密钥 不能为空")
     private String clientSecret;
 
     /**
      * 域
      */
+    @NotBlank(message = "客户端域 不能为空")
     private String scope;
 
     /**

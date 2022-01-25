@@ -1,7 +1,8 @@
 package com.cococloud.log.event;
 
-import com.cococloud.log.feign.RemoteLogService;
+
 import com.cococloud.upms.common.entity.SysLog;
+import com.cococloud.upms.common.feign.RemoteLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;

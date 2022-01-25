@@ -3,9 +3,8 @@ package com.cococloud.log;
 import com.cococloud.log.aspect.SysLogAspect;
 import com.cococloud.log.event.EventPublisher;
 import com.cococloud.log.event.SysLogListener;
-import com.cococloud.log.feign.RemoteLogService;
+import com.cococloud.upms.common.feign.RemoteLogService;
 import lombok.AllArgsConstructor;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 /**
  * @author dzh
  */
-@EnableFeignClients
+
 @EnableAspectJAutoProxy
 @AllArgsConstructor
 @Configuration(proxyBeanMethods = false)

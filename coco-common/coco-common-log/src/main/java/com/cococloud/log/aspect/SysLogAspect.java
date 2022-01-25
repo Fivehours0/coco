@@ -33,7 +33,7 @@ public class SysLogAspect {
             log.setException(e.getMessage());
         } finally {
             long endTime = System.currentTimeMillis();
-            log.setTime(String.valueOf(endTime - startTime));
+            log.setTime(endTime - startTime);
             publisher.publishEvent(new SysLogEvent(log));
         }
 

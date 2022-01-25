@@ -1,0 +1,8 @@
+# Project exclude paths
+/coco-auth/target/
+/coco-common/coco-common-core/target/
+/coco-common/coco-common-log/target/
+/coco-common/target/
+/coco-gateway/target/
+/coco-upms/coco-upms-api/target/
+/coco-upms/coco-upms-common/target/

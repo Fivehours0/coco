@@ -21,9 +21,30 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
 
+  freemarker:
+    allow-request-override: false
+    allow-session-override: false
+    cache: true
+    charset: UTF-8
+    check-template-location: true
+    content-type: text/html
+    enabled: true
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: true
+    prefer-file-system-access: true
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+
 # 暴露监控端点
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+#
+#logging:
+#  level:
+#    root: debug  # 指定日志基本
+#  file:
+#    path: E:\logs\zm-sms  # 指定日志输出的文件路径

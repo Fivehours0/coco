@@ -1,8 +1,8 @@
 package com.cococloud.auth.feign;
 
-import com.cococloud.auth.service.CocoUserDetailsServiceImpl;
 import com.cococloud.common.util.CommentResult;
 import com.cococloud.upms.common.dto.UserDetailsDto;
+import com.cococloud.upms.common.feign.RemoteUserDetail;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

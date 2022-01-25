@@ -10,4 +10,10 @@ public interface CacheConstants {
      * oauth access token 缓存前缀
      */
     String PROJECT_OAUTH_ACCESS = "coco_oauth:access:";
+
+    /**
+     * RedisTokenStore存储的access_token前缀
+     * 实际为PROJECT_OAUTH_ACCESS + AUTH_TO_ACCESS
+     */
+    String AUTH_TO_ACCESS = "auth_to_access:";
 }

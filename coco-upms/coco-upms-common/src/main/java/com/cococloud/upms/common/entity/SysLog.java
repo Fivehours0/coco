@@ -77,7 +77,7 @@ public class SysLog implements Serializable {
     /**
      * 执行时间
      */
-    private String time;
+    private Long time;
 
     /**
      * 删除标记

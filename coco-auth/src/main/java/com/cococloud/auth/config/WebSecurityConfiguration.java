@@ -1,9 +1,10 @@
 package com.cococloud.auth.config;
 
-import com.cococloud.auth.feign.RemoteUserDetail;
+import com.cococloud.auth.handler.CocoWebResponseExceptionTranslater;
 import com.cococloud.auth.service.CocoUserDetailsServiceImpl;
 import com.cococloud.common.constant.CacheConstants;
 import com.cococloud.common.constant.SecurityConstants;
+import com.cococloud.upms.common.feign.RemoteUserDetail;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,6 +55,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new CocoUserDetailsServiceImpl(remoteUserDetail);
     }
 
+    @Bean
+    public CocoWebResponseExceptionTranslater cocoWebResponseExceptionTranslater() {
+        return new CocoWebResponseExceptionTranslater();
+    }
+
 
     /**
      * only when using the resource owner password flow needs an AuthenticationManager
@@ -90,8 +96,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/oauth/**").permitAll();
+//        http.authorizeRequests().antMatchers("/oauth/**", "/token/**").permitAll().anyRequest().permitAll();
+        http.authorizeRequests().anyRequest().permitAll();
         http.formLogin();
-        http.httpBasic();
+        http.httpBasic().and().csrf().disable();
     }
 }
