@@ -16,4 +16,14 @@ public interface CacheConstants {
      * 实际为PROJECT_OAUTH_ACCESS + AUTH_TO_ACCESS
      */
     String AUTH_TO_ACCESS = "auth_to_access:";
+
+    /**
+     * 用户信息缓存
+     */
+    String USER_DETAILS = "user_details:";
+
+    /**
+     * 菜单信息缓存
+     */
+    String MENU_DETAILS = "menu_details";
 }

@@ -25,9 +25,9 @@ public class LoginSuccessListner implements ApplicationListener<AuthenticationSu
         Authentication authentication = event.getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(authentication);
         if (CollUtil.isNotEmpty(authentication.getAuthorities())) {
-            log.info("用户：{} 登录成功", authentication.getPrincipal());
+            log.info("用户：{} 认证成功", authentication.getPrincipal());
             SysLog logVo = SysLogUtils.getSysLog();
-            logVo.setTitle("登录成功");
+            logVo.setTitle("认证成功");
             // 发送异步日志事件
             Long startTime = System.currentTimeMillis();
             Long endTime = System.currentTimeMillis();

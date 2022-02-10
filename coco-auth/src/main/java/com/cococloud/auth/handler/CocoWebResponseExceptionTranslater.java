@@ -1,6 +1,6 @@
 package com.cococloud.auth.handler;
 
-import com.cococloud.auth.exception.*;
+import com.cococloud.security.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

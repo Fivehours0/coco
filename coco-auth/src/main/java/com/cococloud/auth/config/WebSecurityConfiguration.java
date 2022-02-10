@@ -1,24 +1,23 @@
 package com.cococloud.auth.config;
 
 import com.cococloud.auth.handler.CocoWebResponseExceptionTranslater;
-import com.cococloud.auth.service.CocoUserDetailsServiceImpl;
+import com.cococloud.security.service.CocoUserDetailsServiceImpl;
 import com.cococloud.common.constant.CacheConstants;
 import com.cococloud.common.constant.SecurityConstants;
 import com.cococloud.upms.common.feign.RemoteUserDetail;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import javax.sql.DataSource;
 
@@ -30,9 +29,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
 
-    private final RedisTemplate redisTemplate;
-
     private final RemoteUserDetail remoteUserDetail;
+
+    private final CacheManager cacheManager;
 
     @Bean
     public JdbcClientDetailsService jdbcClientDetailsService() {
@@ -52,7 +51,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        return new CocoUserDetailsServiceImpl(remoteUserDetail);
+        return new CocoUserDetailsServiceImpl(remoteUserDetail, cacheManager);
     }
 
     @Bean
@@ -96,9 +95,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().antMatchers("/oauth/**", "/token/**").permitAll().anyRequest().permitAll();
-        http.authorizeRequests().anyRequest().permitAll();
-        http.formLogin();
-        http.httpBasic().and().csrf().disable();
+        http.authorizeRequests().antMatchers("/token/**", "/actuator/**").permitAll()
+                .anyRequest().authenticated().and().csrf().disable();
     }
 }

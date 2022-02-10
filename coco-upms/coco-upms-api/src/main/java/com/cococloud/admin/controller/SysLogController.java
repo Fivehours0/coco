@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cococloud.admin.service.SysLogService;
 import com.cococloud.common.util.CommentResult;
+import com.cococloud.security.annotation.SecurityIgnoreUrl;
 import com.cococloud.upms.common.dto.SysLogDTO;
 import com.cococloud.upms.common.entity.SysLog;
 import lombok.AllArgsConstructor;
@@ -50,6 +51,7 @@ public class SysLogController {
     /**
      * 保存日志
      */
+    @SecurityIgnoreUrl
     @PostMapping
     public CommentResult<Boolean> saveLog(@Valid @RequestBody SysLog log) {
         return CommentResult.ok(logService.save(log));

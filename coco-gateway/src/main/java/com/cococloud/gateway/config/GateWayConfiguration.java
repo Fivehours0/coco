@@ -4,6 +4,7 @@ import com.cococloud.gateway.filter.CaptchaVerificationFilter;
 import com.cococloud.gateway.filter.GatewayGlobalFilter;
 import com.cococloud.gateway.filter.PasswordDecodeFilter;
 import com.cococloud.gateway.handler.CaptchaHandler;
+import com.cococloud.gateway.handler.GlobalExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -36,5 +37,10 @@ public class GateWayConfiguration {
     @Bean
     public GlobalFilter customFilter() {
         return new GatewayGlobalFilter();
+    }
+
+    @Bean
+    public GlobalExceptionHandler globalExceptionHandler(ObjectMapper objectMapper) {
+        return new GlobalExceptionHandler(objectMapper);
     }
 }

@@ -71,7 +71,7 @@ public class SysRoleController {
     @PreAuthorize("hasAuthority('sys_role_del')")
     @DeleteMapping("/{id}")
     public CommentResult<Boolean> deleteRole(@PathVariable("id") Integer id) {
-        return CommentResult.ok(roleService.removeById(id));
+        return CommentResult.ok(roleService.removeRoleById(id));
     }
 
     /**

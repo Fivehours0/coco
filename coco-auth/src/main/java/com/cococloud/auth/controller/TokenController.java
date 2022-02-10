@@ -9,6 +9,7 @@ import com.cococloud.log.event.EventPublisher;
 import com.cococloud.upms.common.entity.SysOauthClientDetails;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +37,8 @@ public class TokenController {
 
     private final EventPublisher publisher;
 
+    private final CacheManager cacheManager;
+
     @DeleteMapping("/logout")
     public CommentResult<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String auth) {
         if (StrUtil.isBlank(auth)) {
@@ -58,7 +61,8 @@ public class TokenController {
         }
 
         OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(accessToken);
-
+        // 清空用户信息
+        cacheManager.getCache(CacheConstants.USER_DETAILS).evict(auth2Authentication.getName());
         // 清空access token
         tokenStore.removeAccessToken(accessToken);
 

@@ -38,4 +38,29 @@ public interface SecurityConstants {
      * 请求token的端点
      */
     String REFRESH_TOKEN = "refresh_token";
+
+    /**
+     * 客户端模式
+     */
+    String CLIENT_MODE = "client_credentials";
+
+    /**
+     * 客户端ID
+     */
+    String CLIENT_ID = "clientId";
+
+    /**
+     * 用户信息
+     */
+    String DETAILS_USER = "user_info";
+
+    /**
+     * http头中，内部调用是添加的属性
+     */
+    String HEAD_INNER = "inner";
+
+    /**
+     * 内部调用赋予HEAD_INNER属性的属性值
+     */
+    String INNER_VALUE = "bty_coco10";
 }

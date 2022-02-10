@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cococloud.admin.mapper.SysRoleMenuMapper;
+import com.cococloud.common.constant.CacheConstants;
 import com.cococloud.common.constant.CommonConstans;
 import com.cococloud.common.constant.enums.MenuTypeEnum;
 import com.cococloud.upms.common.entity.SysMenu;
@@ -18,6 +19,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cococloud.upms.common.entity.SysRoleMenu;
 import com.cococloud.upms.common.entity.SysUser;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -48,6 +51,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 根据角色id查询Menu列表
      */
     @Override
+    @Cacheable(value = CacheConstants.MENU_DETAILS, key = "#roleId  + '_menu'", unless = "#result == null")
     public List<SysMenu> loadMenuByRoleId(Integer roleId) {
         return sysMenuMapper.loadMenuByRoleId(roleId);
     }
@@ -89,12 +93,22 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
     public boolean deleteMenuById(Integer menuId) {
         // 查询该节点下有无子节点
         List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query().lambda().eq(SysMenu::getParentId, menuId));
         Assert.isTrue(CollUtil.isEmpty(menuList), "菜单含有下级不能删除");
         roleMenuMapper.delete(Wrappers.<SysRoleMenu>lambdaQuery().eq(SysRoleMenu::getMenuId, menuId));
         return this.removeById(menuId);
+    }
+
+    /**
+     * 更新菜单
+     */
+    @Override
+    @CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
+    public boolean updateMenuById(SysMenu menu) {
+        return this.updateById(menu);
     }
 
     private Function<SysMenu, TreeNode<Integer>> getNodeFunction() {

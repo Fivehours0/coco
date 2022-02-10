@@ -7,9 +7,12 @@ import cn.hutool.http.HttpUtil;
 import com.cococloud.upms.common.entity.SysLog;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -24,7 +27,7 @@ public class SysLogUtils {
                 .getRequestAttributes())).getRequest();
         SysLog log = new SysLog();
         log.setType(LogTypeEnum.NORMAL.getType());
-        log.setServiceId(getServiceId());
+        log.setServiceId(getServiceId(request));
         log.setRemoteAddr(ServletUtil.getClientIP(request));
         log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
         log.setRequestUri(request.getRequestURI());
@@ -39,13 +42,23 @@ public class SysLogUtils {
      * 获取客户端id
      * @return 客户端id
      */
-    private String getServiceId() {
+    private String getServiceId(HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (ObjectUtil.isNull(authentication)) {
             return null;
         }
+        // upms中authentication的类型
         if (authentication instanceof OAuth2Authentication) {
             return ((OAuth2Authentication) authentication).getOAuth2Request().getClientId();
+        }
+        // 在登录认证成功后，authentication的类型。用于写入认证成功日志
+        if (authentication instanceof UsernamePasswordAuthenticationToken) {
+            BasicAuthenticationConverter basicAuthenticationConverter = new BasicAuthenticationConverter();
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = basicAuthenticationConverter
+                    .convert(request);
+            if (usernamePasswordAuthenticationToken != null) {
+                return usernamePasswordAuthenticationToken.getName();
+            }
         }
         return null;
     }

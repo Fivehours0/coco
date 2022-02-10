@@ -15,6 +15,7 @@
     <modules>
         <module>coco-common-core</module>
         <module>coco-common-log</module>
+        <module>coco-common-security</module>
     </modules>
 
     <dependencies>

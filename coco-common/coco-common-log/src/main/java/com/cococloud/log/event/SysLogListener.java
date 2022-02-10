@@ -1,6 +1,7 @@
 package com.cococloud.log.event;
 
 
+import com.cococloud.common.constant.SecurityConstants;
 import com.cococloud.upms.common.entity.SysLog;
 import com.cococloud.upms.common.feign.RemoteLogService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class SysLogListener {
     @EventListener(SysLogEvent.class)
     public void onApplicationEvent(SysLogEvent event) {
         SysLog sysLog = (SysLog) event.getSource();
-        remoteLogService.saveLog(sysLog);
+        remoteLogService.saveLog(sysLog, SecurityConstants.INNER_VALUE);
     }
 
 }

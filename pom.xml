@@ -14,7 +14,7 @@
         <module>coco-gateway</module>
         <module>coco-common</module>
         <module>coco-auth</module>
-        <module>coco-register</module>
+        <module>coco-monitor</module>
     </modules>
 
     <properties>

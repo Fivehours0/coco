@@ -34,4 +34,9 @@ public interface SysMenuService extends IService<SysMenu> {
      * 根据id删除菜单
      */
     boolean deleteMenuById(Integer menuId);
+
+    /**
+     * 根据id更新
+     */
+    boolean updateMenuById(SysMenu menu);
 }

@@ -1,5 +1,6 @@
 package com.cococloud.gateway.filter;
 
+import com.cococloud.common.constant.SecurityConstants;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -20,6 +21,10 @@ public class GatewayGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange,
                              GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
+
+        // 去除请求头中from 参数
+        request = exchange.getRequest().mutate()
+                .headers(httpHeaders -> httpHeaders.remove(SecurityConstants.HEAD_INNER)).build();
 
         /*
          * 将gateway的StripPrefix过滤器功能应用至全局

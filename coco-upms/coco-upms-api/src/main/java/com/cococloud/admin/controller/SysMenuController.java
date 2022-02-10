@@ -103,7 +103,7 @@ public class SysMenuController {
     @PreAuthorize("hasAuthority('sys_menu_edit')")
     @PutMapping
     public CommentResult<Boolean> updateMenu(@RequestBody SysMenu menu) {
-        return CommentResult.ok(menuService.updateById(menu));
+        return CommentResult.ok(menuService.updateMenuById(menu));
     }
 
     /**

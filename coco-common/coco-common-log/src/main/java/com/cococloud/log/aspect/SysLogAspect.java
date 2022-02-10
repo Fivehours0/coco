@@ -31,6 +31,7 @@ public class SysLogAspect {
         } catch (Exception e) {
             log.setType(LogTypeEnum.ERROR.getType());
             log.setException(e.getMessage());
+            throw e;
         } finally {
             long endTime = System.currentTimeMillis();
             log.setTime(endTime - startTime);

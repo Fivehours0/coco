@@ -1,0 +1,20 @@
+server:
+  port: 5001
+
+# 服务名称
+spring:
+  application:
+    name: coco-monitor
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: coco-register:8850
+      config:
+        server-addr: coco-register:8850
+        file-extension: yaml
+        shared-configs:
+          -application-dev.yaml
+
+  profiles:
+    active: dev

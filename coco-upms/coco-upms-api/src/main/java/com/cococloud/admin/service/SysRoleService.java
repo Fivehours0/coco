@@ -12,5 +12,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-12-31
  */
 public interface SysRoleService extends IService<SysRole> {
-
+    /**
+     * 根据角色id，移除角色以及角色相应的菜单
+     * @param id
+     * @return
+     */
+    boolean removeRoleById(Integer id);
 }

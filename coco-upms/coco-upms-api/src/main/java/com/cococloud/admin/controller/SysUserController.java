@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cococloud.admin.mapper.SysUserMapper;
 import com.cococloud.log.annotation.SysLog;
+import com.cococloud.security.annotation.SecurityIgnoreUrl;
 import com.cococloud.upms.common.dto.UserDTO;
 import com.cococloud.upms.common.dto.UserDetailsDto;
 import com.cococloud.upms.common.entity.SysUser;
@@ -41,6 +42,7 @@ public class SysUserController {
     /**
      * 根据username从数据库表中查询SysUser, 并根据SysUser, 构建并返回一个UserDetailsDto
      */
+    @SecurityIgnoreUrl
     @GetMapping("/info/{username}")
     public CommentResult<UserDetailsDto> loadUser(@PathVariable("username") String username) {
         QueryWrapper<SysUser> qw = new QueryWrapper<SysUser>().eq("username", username);
@@ -105,7 +107,8 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('sys_user_del')")
     @DeleteMapping("/{id}")
     public CommentResult<Boolean> deleteUser(@PathVariable("id") Integer id) {
-        return CommentResult.ok(userService.deleteUser(id));
+        SysUser sysUser = userService.getById(id);
+        return CommentResult.ok(userService.deleteUser(sysUser));
     }
 
     /**

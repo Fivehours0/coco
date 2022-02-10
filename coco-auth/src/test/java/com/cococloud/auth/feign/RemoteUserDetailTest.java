@@ -21,7 +21,7 @@ class RemoteUserDetailTest {
 
     @Test
     public void testRemoteUserDetail() {
-        CommentResult<UserDetailsDto> admin = remoteUserDetail.loadUser("root");
+        CommentResult<UserDetailsDto> admin = remoteUserDetail.loadUser("root", "test");
         System.out.println(admin.getData());
         System.out.println(userDetailsService.loadUserByUsername("root"));
     }

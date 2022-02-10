@@ -24,7 +24,7 @@ public interface SysUserService extends IService<SysUser> {
 
     boolean saveUser(UserDTO userVO);
 
-    boolean deleteUser(Integer userId);
+    boolean deleteUser(SysUser userId);
 
     boolean updateUser(UserDTO userDTO);
 

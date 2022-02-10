@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cococloud.admin.mapper.SysUserRoleMapper;
 import com.cococloud.admin.service.SysMenuService;
+import com.cococloud.common.constant.CacheConstants;
 import com.cococloud.common.constant.CommonConstans;
 import com.cococloud.common.constant.enums.MenuTypeEnum;
 import com.cococloud.upms.common.dto.UserDTO;
@@ -20,6 +21,7 @@ import com.cococloud.upms.common.entity.SysUserRole;
 import com.cococloud.upms.common.vo.UserInfoVo;
 import com.cococloud.upms.common.vo.UserVO;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -109,7 +111,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteUser(Integer userId) {
+    @CacheEvict(cacheNames = CacheConstants.USER_DETAILS, key = "#user.username")
+    public boolean deleteUser(SysUser user) {
+        Integer userId = user.getUserId();
         userMapper.deleteById(userId);
         userRoleMapper.removeUserRoleByUserID(userId);
         return true;
@@ -117,6 +121,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDTO.username")
     public boolean updateUser(UserDTO userDTO) {
         SysUser user = new SysUser();
         BeanUtil.copyProperties(userDTO, user);
@@ -137,6 +142,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDTO.username")
     public boolean updateCurrUserInfo(UserDTO userDTO) {
         SysUser user = userMapper.selectOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDTO.getUsername()));
         Assert.isTrue(ENCODER.matches(userDTO.getPassword(), user.getPassword()), "密码不正确，信息修改失败");
