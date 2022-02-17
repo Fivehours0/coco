@@ -1,6 +1,6 @@
 package com.cococloud.security.exception;
 
-import com.cococloud.common.constant.CommonConstans;
+import com.cococloud.common.constant.CommonConstants;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -17,7 +17,7 @@ public class CocoOAuth2ExceptionSerializer extends StdSerializer<OAuth2Exception
     @Override
     public void serialize(OAuth2Exception value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeObjectField("code", CommonConstans.FAIL);
+        gen.writeObjectField("code", CommonConstants.FAIL);
         gen.writeStringField("msg", value.getMessage());
         gen.writeStringField("data", value.getOAuth2ErrorCode());
         gen.writeStringField("error_description", value.getMessage());

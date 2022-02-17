@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.util.List;
 
@@ -21,9 +22,11 @@ public class CocoResourceServerConfigurer extends ResourceServerConfigurerAdapte
 
     private final CocoResourceTokenService cocoTokenService;
 
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.tokenServices(cocoTokenService);
+        resources.tokenServices(cocoTokenService).authenticationEntryPoint(authenticationEntryPoint);
     }
 
     @Override

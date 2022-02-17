@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 
 import com.cococloud.common.constant.CacheConstants;
 import com.cococloud.security.component.CocoUser;
-import com.cococloud.common.constant.CommonConstans;
+import com.cococloud.common.constant.CommonConstants;
 import com.cococloud.common.constant.SecurityConstants;
 import com.cococloud.common.util.CommentResult;
 import com.cococloud.upms.common.dto.UserDetailsDto;
@@ -55,10 +55,10 @@ public class CocoUserDetailsServiceImpl implements UserDetailsService {
 
         CocoUser cocoUser = new CocoUser(sysUser.getUserId(), sysUser.getUsername(),
                 SecurityConstants.POSSWORD_ENCODING + sysUser.getPassword(),
-                StrUtil.equals(sysUser.getLockFlag(), CommonConstans.STATUS_NORMAL),
+                StrUtil.equals(sysUser.getLockFlag(), CommonConstants.STATUS_NORMAL),
                 true,
                 true,
-                StrUtil.equals(sysUser.getLockFlag(), CommonConstans.STATUS_NORMAL),
+                StrUtil.equals(sysUser.getLockFlag(), CommonConstants.STATUS_NORMAL),
                 authorityList);
 
         if (cache != null) {

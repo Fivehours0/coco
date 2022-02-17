@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
@@ -34,9 +35,11 @@ public class CocoWebResponseExceptionTranslater implements WebResponseExceptionT
             return handleOAuth2Exception(new BadRequestException(ase.getMessage(), ase));
         }
 
-        ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
+        // token 失效进行特殊处理返回424，前端进行弹窗重新登录
+        ase = (InvalidTokenException) throwableAnalyzer.getFirstThrowableOfType(InvalidTokenException.class,
+                causeChain);
         if (ase != null) {
-            return handleOAuth2Exception((OAuth2Exception) ase);
+            return handleOAuth2Exception(new TokenInvalidException(ase.getMessage(), ase));
         }
 
         ase = (AuthenticationException) throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class,
@@ -55,6 +58,11 @@ public class CocoWebResponseExceptionTranslater implements WebResponseExceptionT
                 HttpRequestMethodNotSupportedException.class, causeChain);
         if (ase instanceof HttpRequestMethodNotSupportedException) {
             return handleOAuth2Exception(new MethodNotAllowed(ase.getMessage(), ase));
+        }
+
+        ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
+        if (ase != null) {
+            return handleOAuth2Exception((OAuth2Exception) ase);
         }
 
         return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));

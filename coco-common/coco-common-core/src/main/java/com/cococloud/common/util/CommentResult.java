@@ -1,6 +1,6 @@
 package com.cococloud.common.util;
 
-import com.cococloud.common.constant.CommonConstans;
+import com.cococloud.common.constant.CommonConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,31 +29,31 @@ public class CommentResult<T> {
     private T data;
 
     public static <T> CommentResult<T> ok() {
-        return new CommentResult<>(CommonConstans.SUCCESS, null, null);
+        return new CommentResult<>(CommonConstants.SUCCESS, null, null);
     }
 
     public static <T> CommentResult<T> ok(T data) {
-        return new CommentResult<>(CommonConstans.SUCCESS, null, data);
+        return new CommentResult<>(CommonConstants.SUCCESS, null, data);
     }
 
     public static <T> CommentResult<T> ok(T data, String msg) {
-        return new CommentResult<>(CommonConstans.SUCCESS, msg, data);
+        return new CommentResult<>(CommonConstants.SUCCESS, msg, data);
     }
 
     public static <T> CommentResult<T> failed() {
-        return new CommentResult<>(CommonConstans.FAIL, null, null);
+        return new CommentResult<>(CommonConstants.FAIL, null, null);
     }
 
     public static <T> CommentResult<T> failed(String msg) {
-        return new CommentResult<>(CommonConstans.FAIL, msg, null);
+        return new CommentResult<>(CommonConstants.FAIL, msg, null);
     }
 
     public static <T> CommentResult<T> failed(T data) {
-        return new CommentResult<>(CommonConstans.FAIL, null, data);
+        return new CommentResult<>(CommonConstants.FAIL, null, data);
     }
 
     public static <T> CommentResult<T> failed(T data, String msg) {
-        return new CommentResult<>(CommonConstans.FAIL, msg, data);
+        return new CommentResult<>(CommonConstants.FAIL, msg, data);
     }
 
     public CommentResult(Integer code, String msg) {

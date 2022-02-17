@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class SysTokenController {
     private final RemoteTokenService tokenService;
 
-    @SecurityIgnoreUrl
     @GetMapping("/page")
     public CommentResult<Page> getPageToken(Page page) {
         return tokenService.getPageToken(page, SecurityConstants.INNER_VALUE);
     }
 
     @SysLog("删除令牌")
-    @SecurityIgnoreUrl
     @PreAuthorize("hasAuthority('sys_token_del')")
     @DeleteMapping("/{token}")
     public CommentResult<Boolean> removeToken(@PathVariable("token") String token) {

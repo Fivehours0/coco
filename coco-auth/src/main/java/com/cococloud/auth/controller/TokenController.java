@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cococloud.common.constant.CacheConstants;
 import com.cococloud.common.util.CommentResult;
 import com.cococloud.log.event.EventPublisher;
+import com.cococloud.security.annotation.SecurityIgnoreUrl;
 import com.cococloud.upms.common.entity.SysOauthClientDetails;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +54,7 @@ public class TokenController {
      * 删除token
      * @param token token
      */
+    @SecurityIgnoreUrl
     @DeleteMapping("/{token}")
     public CommentResult<Boolean> removeToken(@PathVariable("token") String token) {
         OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
@@ -78,6 +80,7 @@ public class TokenController {
     /**
      * 分页获取token
      */
+    @SecurityIgnoreUrl
     @PostMapping("/page")
     public CommentResult<Page> getPageToken(Page page) {
         String matchKey = CacheConstants.PROJECT_OAUTH_ACCESS + CacheConstants.AUTH_TO_ACCESS;

@@ -1,6 +1,6 @@
 package com.cococloud.common.constant;
 
-public interface CommonConstans {
+public interface CommonConstants {
     /**
      * 成功标记
      */
@@ -25,4 +25,14 @@ public interface CommonConstans {
      * 菜单默认父节点id
      */
     Integer MENU_DEFAULT_ROOT_ID = -1;
+
+    /**
+     * 编码
+     */
+    String UTF8 = "UTF-8";
+
+    /**
+     * JSON 资源
+     */
+    String JSON_CONTENT_TYPE = "application/json; charset=utf-8";
 }

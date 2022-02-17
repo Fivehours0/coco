@@ -1,9 +1,11 @@
 package com.cococloud.admin.config;
 
+import com.cococloud.admin.component.CocoResourceAuthExceptionEntryPoint;
 import com.cococloud.common.constant.CacheConstants;
 import com.cococloud.security.component.IgnoreUrlProperties;
 import com.cococloud.security.service.CocoUserDetailsServiceImpl;
 import com.cococloud.upms.common.feign.RemoteUserDetail;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
@@ -21,6 +23,8 @@ public class CocoResourceAutoConfiguration {
 
     private final CacheManager cacheManager;
 
+    private final ObjectMapper mapper;
+
     @Bean
     public RedisTokenStore redisTokenStore(RedisConnectionFactory connectionFactory) {
         RedisTokenStore redisTokenStore = new RedisTokenStore(connectionFactory);
@@ -31,5 +35,10 @@ public class CocoResourceAutoConfiguration {
     @Bean
     public UserDetailsService userDetailsService(RemoteUserDetail remoteUserDetail) {
         return new CocoUserDetailsServiceImpl(remoteUserDetail, cacheManager);
+    }
+
+    @Bean
+    public CocoResourceAuthExceptionEntryPoint authEntryPoint() {
+        return new CocoResourceAuthExceptionEntryPoint(mapper);
     }
 }

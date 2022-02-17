@@ -1,6 +1,7 @@
 package com.cococloud.auth.config;
 
 import com.cococloud.auth.handler.CocoWebResponseExceptionTranslater;
+import com.cococloud.security.component.IgnoreUrlProperties;
 import com.cococloud.security.service.CocoUserDetailsServiceImpl;
 import com.cococloud.common.constant.CacheConstants;
 import com.cococloud.common.constant.SecurityConstants;
@@ -10,17 +11,17 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
-
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +33,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final RemoteUserDetail remoteUserDetail;
 
     private final CacheManager cacheManager;
+
+    private final IgnoreUrlProperties ignoreUrlProperties;
 
     @Bean
     public JdbcClientDetailsService jdbcClientDetailsService() {
@@ -95,7 +98,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/token/**", "/actuator/**").permitAll()
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry =
+                http.authorizeRequests();
+        List<String> urls = ignoreUrlProperties.getUrls();
+        urls.forEach(url -> registry.antMatchers(url).permitAll());
+
+        http.authorizeRequests().antMatchers("/token/logout", "/actuator/**").permitAll()
                 .anyRequest().authenticated().and().csrf().disable();
     }
 }
