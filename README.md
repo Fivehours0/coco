@@ -56,11 +56,11 @@ com.coco
 ## **示例图片**
 <table>
   <tr>
-    <td><img src="https://github.com/Fivehours0/coco/blob/master/img/login.png"></a></td>
-    <td><img src="https://github.com/Fivehours0/coco/blob/master/img/user.png"></a></td>
+    <td><img src="https://github.com/Fivehours0/coco/blob/master/img/login.png"></td>
+    <td><img src="https://github.com/Fivehours0/coco/blob/master/img/user.png"></td>
   </tr>
     <tr>
-    <td><img src="https://github.com/Fivehours0/coco/blob/master/img/auth.png"></a></td>
-    <td><img src="https://github.com/Fivehours0/coco/blob/master/img/log.png"></a></td>
+    <td><img src="https://github.com/Fivehours0/coco/blob/master/img/auth.png"></td>
+    <td><img src="https://github.com/Fivehours0/coco/blob/master/img/log.png"></td>
   </tr>
 </table>
