@@ -52,3 +52,15 @@ com.coco
 │       └── coco-upms-api  -- 用户权限管理模块相关服务实现[4100]
 │       └── coco-upms-common  -- 用户权限管理公共模块
 ~~~
+
+## **示例图片**
+<table>
+  <tr>
+    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://github.com/Fivehours0/coco/blob/master/img/login.png"></a></td>
+    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://github.com/Fivehours0/coco/blob/master/img/user.png"></a></td>
+  </tr>
+    <tr>
+    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://github.com/Fivehours0/coco/blob/master/img/auth.png"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://github.com/Fivehours0/coco/blob/master/img/log.png"></a></td>
+  </tr>
+</table>
